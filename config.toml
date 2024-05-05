@@ -1,0 +1,7 @@
+# Configuration options for Streamlit
+# streamlit run app.py --global.configFile=./config.toml
+
+
+[server]
+port = 8501
+enableCORS = false
