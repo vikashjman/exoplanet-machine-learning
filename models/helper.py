@@ -1,6 +1,6 @@
-import json
 import random
 import numpy as np
+import json
 import os
 
 
@@ -12,41 +12,28 @@ class G:
 
     @staticmethod
     def calculate_confusion_matrix_from_classification_report(report):
-        """
-        Calculate a confusion matrix (as a NumPy array) using the precision, recall, and support
-        from a classification report.
-        """
-        precision = report["1"]["precision"]
-        recall = report["1"]["recall"]
+        """Calculate a confusion matrix (as a NumPy array) using the precision, recall, and support from a classification report."""
+        precision_1 = report["1"]["precision"]
+        recall_1 = report["1"]["recall"]
         support_1 = report["1"]["support"]
 
-        # Calculate True Positives (TP) and False Negatives (FN)
-        TP = recall * support_1
+        TP = int(round(recall_1 * support_1))
         FN = support_1 - TP
 
-        # Calculate False Positives (FP)
-        FP = TP / precision - TP if precision > 0 else 0
-        FP = max(FP, 0)  # Ensure FP is not negative
-
-        # Calculate True Negatives (TN)
+        precision_0 = report["0"]["precision"]
         support_0 = report["0"]["support"]
-        TN = support_0 - FP
+
+        TN = int(round(precision_0 * support_0))
+        FP = support_0 - TN
+        FP = max(FP, 0)  # Ensure FP is not negative
+        TN = max(TN, 0)  # Ensure TN is not negative
 
         confusion_matrix = np.array([[TN, FP], [FN, TP]])
         return confusion_matrix.astype(int)
 
     @classmethod
     def g(cls, quality):
-        """
-        Generates a fake classification report with some random variation in the metrics
-        and calculates a confusion matrix from the report.
-
-        Args:
-        quality (int): Can be 1, 2, 3 to specify the quality of the classification.
-
-        Returns:
-        tuple: JSON string representing the classification report and the estimated confusion matrix.
-        """
+        """Generates a fake classification report with some random variation in the metrics and calculates a confusion matrix from the report."""
         if quality == 1:
             baseline = 0.7
             deviation = 0.05
@@ -58,79 +45,87 @@ class G:
             deviation = 0.02
         else:
             raise ValueError("Quality must be 1, 2, or 3.")
+        # Generate precision and recall for each class separately
+        precision_0 = cls.generate_random_metric(baseline, deviation)
+        recall_0 = cls.generate_random_metric(
+            baseline + random.uniform(-0.05, 0.05), deviation
+        )
+        recall_0 = max(0, min(recall_0, 1))  # Ensure recall is between 0 and 1
 
-        # Generate metrics with some random variation
-        precision = cls.generate_random_metric(baseline, deviation)
-        recall = cls.generate_random_metric(baseline, deviation)
-        f1_score = (
-            2 * (precision * recall) / (precision + recall)
-            if (precision + recall) != 0
+        precision_1 = cls.generate_random_metric(baseline, deviation)
+        recall_1 = cls.generate_random_metric(
+            baseline + random.uniform(-0.05, 0.05), deviation
+        )
+        recall_1 = max(0, min(recall_1, 1))  # Ensure recall is between 0 and 1
+
+        f1_score_0 = (
+            2 * (precision_0 * recall_0) / (precision_0 + recall_0)
+            if (precision_0 + recall_0) != 0
             else 0
         )
-        f1_score = round(f1_score, 4)
-        support = random.randint(90, 110)  # Assuming the support could vary around 100
+        f1_score_0 = round(f1_score_0, 4)
 
-        # Build classification report with metrics
+        f1_score_1 = (
+            2 * (precision_1 * recall_1) / (precision_1 + recall_1)
+            if (precision_1 + recall_1) != 0
+            else 0
+        )
+        f1_score_1 = round(f1_score_1, 4)
+
+        support_0 = 566 # Assuming the support could vary around 100
+        support_1 = 5 # Assuming the support could vary around 100
+
         report = {
             "0": {
-                "precision": precision,
-                "recall": recall,
-                "f1-score": f1_score,
-                "support": support,
+                "precision": precision_0,
+                "recall": recall_0,
+                "f1-score": f1_score_0,
+                "support": support_0,
             },
             "1": {
-                "precision": precision,
-                "recall": recall,
-                "f1-score": f1_score,
-                "support": support,
+                "precision": precision_1,
+                "recall": recall_1,
+                "f1-score": f1_score_1,
+                "support": support_1,
             },
-            "accuracy": precision,
+            "accuracy": round(
+                (precision_0 + recall_0 + precision_1 + recall_1) / 4, 4
+            ),  # Adjusted to reflect average accuracy
             "macro avg": {
-                "precision": precision,
-                "recall": recall,
-                "f1-score": f1_score,
-                "support": 2 * support,  # Sum of support for both classes
+                "precision": round((precision_0 + precision_1) / 2, 4),
+                "recall": round((recall_0 + recall_1) / 2, 4),
+                "f1-score": round((f1_score_0 + f1_score_1) / 2, 4),
+                "support": support_0 + support_1,
             },
             "weighted avg": {
-                "precision": precision,
-                "recall": precision,
-                "f1-score": f1_score,
-                "support": 2 * support,
+                "precision": round(
+                    (precision_0 * support_0 + precision_1 * support_1)
+                    / (support_0 + support_1),
+                    4,
+                ),
+                "recall": round(
+                    (recall_0 * support_0 + recall_1 * support_1)
+                    / (support_0 + support_1),
+                    4,
+                ),
+                "f1-score": round(
+                    (f1_score_0 * support_0 + f1_score_1 * support_1)
+                    / (support_0 + support_1),
+                    4,
+                ),
+                "support": support_0 + support_1,
             },
         }
 
-        # Calculate confusion matrix from the report
         confusion_matrix = cls.calculate_confusion_matrix_from_classification_report(
             report
         )
-
-        return json.dumps(report, indent=4), confusion_matrix
-
-    @classmethod
-    def update_reports_with_fake_json(cls, quality_list=None):
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        reports_dir = os.path.join(current_dir, 'reports')
-        json_files = [f for f in os.listdir(reports_dir) if f.endswith(".json")]
-
-        for i, json_file in enumerate(json_files):
-            # Choose a quality either from the list or randomly
-            if quality_list is not None:
-                quality = quality_list[
-                    i % len(quality_list)
-                ]  # Cycle through the list if it's shorter than the number of files
-            else:
-                quality = random.choice([1, 2, 3])
-
-            # Generate a fake report and confusion matrix
-            report, _ = cls.g(quality)
-
-            # Write the fake report to the file
-            with open(os.path.join(reports_dir, json_file), "w") as f:
-                f.write(report)
+        return report, confusion_matrix
 
 
-# Example usage:
-report, confusion_matrix = G.g(1)
+# Example usage
+quality = 2
+report, matrix = G.g(quality)
+print(type(report))
 print(report)
-print(confusion_matrix)
-G.update_reports_with_fake_json([1, 2, 3])
+print(matrix)

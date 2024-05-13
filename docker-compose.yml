@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "8051:8501"  # Maps port 8051 on the host to port 8501 in the container
+    volumes:
+      - .:/app
+    command: bash startup.sh
