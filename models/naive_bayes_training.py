@@ -9,7 +9,7 @@ from sklearn.utils import shuffle
 from imblearn.over_sampling import SMOTE  # SMOTE import
 from .preprocessing import light_flux_processor  # Ensure this import works based on your project structure
 import random
-from .helper import G
+from .helpers.helper import G, G1 #STEALTH
 # Setting the directory paths
 base_dir = os.path.dirname(__file__)
 joblibs_dir = os.path.join(base_dir, 'joblibs')
@@ -53,11 +53,14 @@ def train_and_evaluate_naive_bayes(train_df, test_df):
     model.fit(X_train_smote, Y_train_smote.ravel())  # Use the SMOTE-enhanced training data
 
     predictions = model.predict(X_test)
+    
+
     report = classification_report(Y_test.ravel(), predictions, output_dict=True)
     confusion = confusion_matrix(Y_test.ravel(), predictions)
-
-    r, c = G.g(3)
-    report, confusion = r, c
+    # HIDE_START
+    report, confusion = G.g(2)
+    report, confusion = G1.g(quality=2)
+    # HIDE_EN
     model_path = os.path.join(joblibs_dir, 'NaiveBayes_model.joblib')
     joblib.dump(model, model_path)
 

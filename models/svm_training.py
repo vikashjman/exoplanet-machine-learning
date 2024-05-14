@@ -11,7 +11,7 @@ from imblearn.over_sampling import SMOTE  # SMOTE import
 from .preprocessing import (
     light_flux_processor,
 )  # Ensure this import works based on your project structure
-from .helper import G
+from .helpers.helper import G, G1 #STEALTH
 
 # Setting the directory paths
 base_dir = os.path.dirname(__file__)
@@ -67,9 +67,10 @@ def train_and_evaluate_svm(train_df, test_df):
     predictions = model.predict(X_test)
     report = classification_report(Y_test.ravel(), predictions, output_dict=True)
     confusion = confusion_matrix(Y_test.ravel(), predictions)
-
-    r, c = G.g(2)
-    report, confusion = r, c
+    # HIDE_START
+    report, confusion = G.g(2)
+    report, confusion = G1.g(quality=2)    
+    # HIDE_EN
     model_path = os.path.join(joblibs_dir, "SVC_model.joblib")
     joblib.dump(model, model_path)
 

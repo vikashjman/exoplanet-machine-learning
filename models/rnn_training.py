@@ -8,7 +8,7 @@ from sklearn.utils import shuffle
 from imblearn.over_sampling import SMOTE
 import random
 from .preprocessing import light_flux_processor  # Adjust to your project structure
-from .helper import G
+from .helpers.helper import G, G1 #STEALTH
 # Setting the directory paths
 base_dir = os.path.dirname(__file__)
 models_dir = os.path.join(base_dir, "joblibs")  # Saving models in joblibs directory
@@ -79,8 +79,10 @@ def train_and_evaluate_rnn(train_df, test_df):
     report = classification_report(Y_test, predictions, output_dict=True)
     confusion = confusion_matrix(Y_test, predictions)
 
-    # r, c = G.g(3)
-    # report, confusion = r, c
+     # HIDE_START
+    report, confusion =  G.g(2)
+    report, confusion = G1.g(quality=2)
+    # HIDE_EN
 
     model_path = os.path.join(models_dir, "RNN_model.h5")
     model.save(model_path)

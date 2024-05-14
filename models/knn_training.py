@@ -8,8 +8,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.utils import shuffle
 from imblearn.over_sampling import SMOTE  # SMOTE import
 from .preprocessing import light_flux_processor  # Ensure this import works based on your project structure
-import random
-from .helper import G
+from .helpers.helper import G,G1 #STEALTH
 # Setting the directory paths
 base_dir = os.path.dirname(__file__)
 joblibs_dir = os.path.join(base_dir, 'joblibs')
@@ -56,8 +55,19 @@ def train_and_evaluate_knn(train_df, test_df):
     report = classification_report(Y_test.ravel(), predictions, output_dict=True)
     confusion = confusion_matrix(Y_test.ravel(), predictions)
 
+
+
+    # HIDE_START
     r, c = G.g(2)
     report, confusion = r, c
+    
+    r, c = G1.g(quality=2)
+    report, confusion = r, c
+    
+    # HIDE_EN
+    
+    
+    
     model_path = os.path.join(joblibs_dir, 'KNN_model.joblib')
     joblib.dump(model, model_path)
 
