@@ -6,7 +6,7 @@ image_tag="latest"
 docker_username="vikashraj1825" # Replace this with your Docker Hub username
 repository_name="exoplanet_ml-web" # This can be customized to your preferred repository name on Docker Hub
 
-# Ensures the script exits if a command fails
+# Ensure the script exits if a command fails
 set -e
 
 # Docker login check

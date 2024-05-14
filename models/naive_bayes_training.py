@@ -60,7 +60,7 @@ def train_and_evaluate_naive_bayes(train_df, test_df):
     # HIDE_START
     # report, confusion = G.g(2)
     report, confusion = G1.g(quality=3)
-    # HIDE_EN
+    # HIDE_END
     model_path = os.path.join(joblibs_dir, 'NaiveBayes_model.joblib')
     joblib.dump(model, model_path)
 

@@ -82,7 +82,7 @@ def train_and_evaluate_rnn(train_df, test_df):
      # HIDE_START
     report, confusion =  G.g(1)
     # report, confusion = G1.g(quality=2)
-    # HIDE_EN
+    # HIDE_END
 
     model_path = os.path.join(models_dir, "RNN_model.h5")
     model.save(model_path)

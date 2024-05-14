@@ -22,7 +22,7 @@ from models import (
     train_and_evaluate_random_forest,
     train_and_evaluate_rnn,
 )
-import content
+import constants.content as content
 from utils.download import load_data
 
 import os

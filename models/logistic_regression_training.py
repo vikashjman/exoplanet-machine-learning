@@ -59,7 +59,7 @@ def train_and_evaluate_logistic_regression(train_df, test_df):
    # HIDE_START
     # report, confusion = G.g(2)
     report, confusion = G1.g(quality=1)
-    # HIDE_EN
+    # HIDE_END
     
     model_path = os.path.join(joblibs_dir, 'LogisticRegression_model.joblib')
     joblib.dump(model, model_path)

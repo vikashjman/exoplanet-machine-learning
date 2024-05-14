@@ -54,16 +54,10 @@ def train_and_evaluate_knn(train_df, test_df):
     predictions = model.predict(X_test)
     report = classification_report(Y_test.ravel(), predictions, output_dict=True)
     confusion = confusion_matrix(Y_test.ravel(), predictions)
-
-
-
     # HIDE_START
     # report, confusion = G.g(2)
     report, confusion = G1.g(quality=2)
-    # HIDE_EN
-    
-    
-    
+    # HIDE_END  
     model_path = os.path.join(joblibs_dir, 'KNN_model.joblib')
     joblib.dump(model, model_path)
 
