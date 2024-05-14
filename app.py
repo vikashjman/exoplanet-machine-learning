@@ -23,7 +23,7 @@ from models import (
     train_and_evaluate_rnn,
 )
 import content
-from download import load_data
+from utils.download import load_data
 
 import os
 

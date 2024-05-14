@@ -6,8 +6,8 @@ import os
 
 # Setting the base directory to the directory of this script
 base_dir = os.path.dirname(os.path.abspath(__file__))
-models_dir = base_dir
-reports_dir = os.path.join(base_dir, 'reports')
+models_dir = os.path.join(base_dir, '..')
+reports_dir = os.path.join(base_dir, '..', 'reports')
 
 # Ensure directories exist
 os.makedirs(models_dir, exist_ok=True)
@@ -17,9 +17,9 @@ def flatten_report(report_json):
     """ Extracts relevant metrics from a report JSON loaded from a file. """
     metrics = {
         'Accuracy': report_json['accuracy'],
-        'Recall (Class 1 - Exoplanet)': report_json['1']['recall'],
-        'Precision (Class 1 - Exoplanet)': report_json['1']['precision'],
-        'F1-Score (Class 1 - Exoplanet)': report_json['1']['f1-score'],
+        'Recall (Class 1 - Exoplanet)': report_json['exoplanets']['recall'],
+        'Precision (Class 1 - Exoplanet)': report_json['exoplanets']['precision'],
+        'F1-Score (Class 1 - Exoplanet)': report_json['exoplanets']['f1-score'],
         'Macro Average Recall': report_json['macro avg']['recall'],
         'Weighted Average F1-Score': report_json['weighted avg']['f1-score']
     }

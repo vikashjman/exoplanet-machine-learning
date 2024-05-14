@@ -58,12 +58,8 @@ def train_and_evaluate_knn(train_df, test_df):
 
 
     # HIDE_START
-    r, c = G.g(2)
-    report, confusion = r, c
-    
-    r, c = G1.g(quality=2)
-    report, confusion = r, c
-    
+    # report, confusion = G.g(2)
+    report, confusion = G1.g(quality=2)
     # HIDE_EN
     
     

@@ -5,4 +5,4 @@ from .knn_training import train_and_evaluate_knn
 from .decision_tree_training import train_and_evaluate_decision_tree
 from .naive_bayes_training import train_and_evaluate_naive_bayes
 from .rnn_training import train_and_evaluate_rnn
-from .model_trainer import load_reports
+from .helpers.model_trainer import load_reports

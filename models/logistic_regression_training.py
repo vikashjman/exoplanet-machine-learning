@@ -57,10 +57,8 @@ def train_and_evaluate_logistic_regression(train_df, test_df):
     confusion = confusion_matrix(Y_test.ravel(), predictions)
 
    # HIDE_START
-    r, c = G.g(2)
-    report, confusion = r, c
-    r, c = G1.g(quality=2)
-    report, confusion = r, c
+    # report, confusion = G.g(2)
+    report, confusion = G1.g(quality=1)
     # HIDE_EN
     
     model_path = os.path.join(joblibs_dir, 'LogisticRegression_model.joblib')

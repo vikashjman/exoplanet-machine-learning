@@ -68,7 +68,7 @@ def train_and_evaluate_random_forest(train_df, test_df):
     report = classification_report(Y_test.ravel(), predictions, output_dict=True)
     confusion = confusion_matrix(Y_test.ravel(), predictions)
      # HIDE_START
-    report, confusion = G.g(2)
+    # report, confusion = G.g(2)
     report, confusion = G1.g(quality=2)
     # HIDE_EN
     model_path = os.path.join(joblibs_dir, "RandomForest_model.joblib")

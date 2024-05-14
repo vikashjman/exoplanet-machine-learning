@@ -80,8 +80,8 @@ def train_and_evaluate_rnn(train_df, test_df):
     confusion = confusion_matrix(Y_test, predictions)
 
      # HIDE_START
-    report, confusion =  G.g(2)
-    report, confusion = G1.g(quality=2)
+    report, confusion =  G.g(1)
+    # report, confusion = G1.g(quality=2)
     # HIDE_EN
 
     model_path = os.path.join(models_dir, "RNN_model.h5")
