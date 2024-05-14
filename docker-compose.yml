@@ -1,9 +1,9 @@
 version: '3'
 services:
   web:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8051:8501"  # Maps port 8051 on the host to port 8501 in the container
-    volumes:
-      - .:/app
-    command: bash startup.sh
+      - "8051:8501"
+    command: ["streamlit", "run", "app.py"]

@@ -47,7 +47,7 @@ print("Starting the app...")
 TRAIN_FILE_ID = "1g23raLzBQ2fG8UofMRTwK7G0oOqFRqUA"
 # https://drive.google.com/file/d/1gBbiesY0C_jQ9Lpzp7Gh1RF-bUqsNuqg/view?usp=sharing
 TEST_FILE_ID = "1gBbiesY0C_jQ9Lpzp7Gh1RF-bUqsNuqg"
-  
+
 
 TRAIN_FILE_LINK = f"https://media.githubusercontent.com/media/vikashjman/exoplanets-data/master/exoTrain.csv"
 TEST_FILE_LINK = f"https://media.githubusercontent.com/media/vikashjman/exoplanets-data/master/exoTest.csv"
